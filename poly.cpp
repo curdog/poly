@@ -31,10 +31,19 @@
   
  }
  Poly::Poly operator+(const Poly& left, const Poly& right){
+   Poly temp;
+   temp.x2 = left.x2 + right.x2;
+   temp.x = left.x + right.x;
+   temp.one = left.one + right.one;
+   return temp;
    
  }
  Poly::Poly operator-(const Poly& left, const Poly& right){
-   
+   Poly temp;
+   temp.x2 = left.x2 - right.x2;
+   temp.x = left.x - right.x;
+   temp.one = left.one - right.one;
+   return temp;
  }
 
 
