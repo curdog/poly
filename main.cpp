@@ -13,16 +13,18 @@ int main(){
   int input=0;
 
   while( input != 5 ){
+    dispMenu();
     while( (!cin >> input) ){
       cin.clear();
+      cout << "Please Enter an integer" << endl;
     }
 
     switch( input ){
     case 1:
       cin >> A;
       break;
-    case: 2:
-      cin >> B:
+    case 2:
+      cin >> B;
       break;
     case 3:
       cout << A + B << endl;
