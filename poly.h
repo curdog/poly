@@ -15,7 +15,7 @@ class Poly
 
   
  private:
-  int sqx;
+  int x2;
   int x;
   int ones;
 
