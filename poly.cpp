@@ -3,8 +3,8 @@
 #include <cctype>
 #include "poly.h"
 
-
-#define DEBUG
+//for viewing of string partitions
+#define NDEBUG
 
 using namespace std;
 
@@ -13,6 +13,8 @@ istream& operator>>(istream& inp, Poly& p1){
    bool valid = false;
    while( !valid ){
      inp.clear(); //kill everything before it
+     inp.ignore( 2, '\n'); //works this way, kills newline from last, prevents spurious error in reading
+
      getline(inp,temp);
      //check for x^2, x
      //store positions for them so we can calculate where the 
