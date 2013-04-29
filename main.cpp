@@ -14,7 +14,7 @@ int main(){
 
   while( input != 5 ){
     dispMenu();
-    while( (!cin >> input) ){
+    while( !(cin >> input) ){
       cin.clear();
       cout << "Please Enter an integer" << endl;
     }

@@ -1,7 +1,10 @@
 #include <iostream>
 #include <string>
-#include <ctype.h>
+#include <cctype>
 #include "poly.h"
+
+
+#define DEBUG
 
 using namespace std;
 
@@ -9,12 +12,13 @@ istream& operator>>(istream& inp, Poly& p1){
    string temp;
    bool valid = false;
    while( !valid ){
+     inp.clear(); //kill everything before it
      getline(inp,temp);
      //check for x^2, x
      //store positions for them so we can calculate where the 
      //number substring partitions are,
      int x2l = temp.find("x^2");
-     int xl = temp.find("x");
+     int xl = temp.find("x", x2l+1);
      //the last one will be after a plus or minus sign after x
      //we can just compute it
      
@@ -26,21 +30,42 @@ istream& operator>>(istream& inp, Poly& p1){
      
      string numTemp; 
      // x2 and x as constants for the varibles, intruducting c as the ones constant
-     int x2, x, c;
      //adjust the substrings to not include the leading x
-     x2 = atoi( temp.substr( 0, x2l - 1 ).c_str() );
+     p1.x2 = atoi( temp.substr( 0, x2l ).c_str() );
      //add the length of x^2, don't want the 2 being counted as well
-     x = atoi( temp.substr( x2l + 3, xl - 1  ).c_str() );
+     p1.x = atoi( temp.substr( x2l + 3, xl  ).c_str() );
      //same deal as x2, though keep the sign
-     c = atoi( temp.substr(xl+1, temp.length() ).c_str() );
-      
+     p1.ones = atoi( temp.substr(xl+1, temp.length() ).c_str() );
+#ifdef DEBUG
+     cout << temp.substr( 0, x2l) << endl;
+     cout << temp.substr( x2l+3, xl ) << endl;
+     cout << temp.substr( xl+1, temp.length() ) << endl;
+#endif
+     //now to cheat so to speak, so there should be only:
+     //3/4 punc ( -,^, +/-, +/- ) 2 chars (x's)
+     int alphas = 0;
+     int puncs = 0;
+     for( int i = 0; i < temp.length(); i++ ){
+       if( ispunct( temp.at( i ) ) ){ puncs++;}
+	 
+       if( isalpha( temp.at(i ) ) ){ alphas++;}
+
+     }
+     if( !( puncs == 3 || puncs == 4) || !(alphas == 2 ) ){
+	 valid = false;
+	 continue;
+     }
+
+
+     //this should be good now
+     valid = true;
    }
    
    
  }
 ostream& operator<<(ostream& outp, const Poly& pol){
    //negatives will count as the sign, watch for + though, will not output a sign
-   outp << pol.x2 << "x^2"<< ((pol.x >=0)?"+":"") << pol.x 
+  outp << pol.x2 << "x^2"<< ((pol.x >=0)?"+":"") << pol.x << "x" 
 	<< ((pol.ones >= 0)?"+":"") << pol.ones;
    return outp;
   
